@@ -1,0 +1,25 @@
+# Competition / private artifacts
+data/
+*.pkl
+predictions*.csv
+*_predictions*.csv
+sample_submission.csv
+
+# Generated outputs
+*.png
+*.pdf
+!assets/*.svg
+
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
