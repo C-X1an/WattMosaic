@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-label="WattMosaic banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071A2B"/><stop offset="0.55" stop-color="#0D3B44"/><stop offset="1" stop-color="#116466"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#62F6C6"/><stop offset="1" stop-color="#8CC8FF"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1200" height="360" rx="30" fill="url(#bg)"/>
+  <g opacity="0.15" stroke="#B8FFF1" stroke-width="1">
+    <path d="M0 70H1200M0 140H1200M0 210H1200M0 280H1200"/>
+    <path d="M110 0V360M240 0V360M370 0V360M500 0V360M630 0V360M760 0V360M890 0V360M1020 0V360"/>
+  </g>
+  <g transform="translate(88 83)" filter="url(#glow)">
+    <rect x="0" y="0" width="54" height="54" rx="12" fill="#64F5C7" opacity=".95"/>
+    <rect x="64" y="0" width="54" height="54" rx="12" fill="#8CC8FF" opacity=".9"/>
+    <rect x="0" y="64" width="54" height="54" rx="12" fill="#8CC8FF" opacity=".72"/>
+    <rect x="64" y="64" width="54" height="54" rx="12" fill="#64F5C7" opacity=".72"/>
+    <path d="M16 91 L39 73 L58 86 L83 44 L104 55" fill="none" stroke="#071A2B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="265" y="155" fill="white" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="72" font-weight="700" letter-spacing="-2">WattMosaic</text>
+  <text x="269" y="207" fill="#C8E9E8" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="25">Domain-aware campus energy forecasting</text>
+  <rect x="269" y="235" width="470" height="4" rx="2" fill="url(#accent)"/>
+  <text x="269" y="284" fill="#A8CBCB" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18">Built for NTU Datathon 2026 · Smart Campus Analytics</text>
+</svg>
