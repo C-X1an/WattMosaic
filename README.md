@@ -5,7 +5,6 @@
 <p align="center">
   <a href="notebooks/WattMosaic.ipynb"><img src="https://img.shields.io/badge/Jupyter-Notebook-F37626?logo=jupyter&logoColor=white" alt="Jupyter Notebook" /></a>
   <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white" alt="Python 3.12" />
-  <img src="https://img.shields.io/badge/Public%20RMSE-3.17093-16A085" alt="Public RMSE 3.17093" />
   <img src="https://img.shields.io/badge/License-MIT-2F4858" alt="MIT License" />
 </p>
 
@@ -23,7 +22,9 @@ The project was originally developed for **NTU Datathon / Deep Learning Week 202
 
 WattMosaic addresses that with a **domain-aware mixture of specialists**. Instead of forcing every incomplete row through the same model, it detects which of the four sensor channels are unavailable and routes the observation to a specialist trained for that missingness pattern.
 
-> **Best verified public leaderboard RMSE: `3.17093`**
+> **Project-reported public leaderboard RMSE: `3.17093`**
+
+The public release is a technical walkthrough. Its executable code covers four-sensor missingness masks, simplified core/specialist routing and a synthetic check of all 16 patterns. The full training pipeline, fitted trees, portable tree export and original evaluation artifacts are not included.
 
 ## 🧠 Why WattMosaic?
 
@@ -39,8 +40,8 @@ The four sensor channels — **temperature, humidity, occupancy, and previous us
 - **Domain-aware specialists** — adapts missing-sensor relationships using unlabeled reference features while never using hidden energy labels.
 - **Strong structural baseline** — preserves building, calendar, weather, occupancy, and historical-usage relationships.
 - **Prediction-oriented missing-data handling** — optimizes downstream energy forecasts rather than treating imputation accuracy as the end goal.
-- **Portable inference** — the final competition model was exported to plain Python tree data so inference did not require CatBoost in the fixed runtime.
-- **Defensive output validation** — predictions were aligned by ID and checked for schema, row order, finite values, and unseen-ID behavior.
+- **Portable inference, as described in project notes** — plain Python tree export was used for the fixed event runtime; that implementation is excluded from this release.
+- **Submission validation, as described in project notes** — ID order, finite values and schema were checked in the event workspace; those checks and predictions are excluded.
 
 ## 📊 Results
 
@@ -50,9 +51,11 @@ The four sensor channels — **temperature, humidity, occupancy, and previous us
 | Development audit — test-like joint missingness | **3.2143** | **2.5070** | **0.9696** |
 | **Hackathon public leaderboard** | **3.17093** | — | — |
 
-The leaderboard score is reported exactly as observed during the event. Development and leaderboard metrics are kept separate because they evaluate different observations.
+These historical values come from the project's notes. No independent leaderboard record, trained weights or evaluation data are included, so the scores cannot be independently reproduced from this release. Development and leaderboard results refer to different observations. Running the notebook displays this table; it does not calculate forecast metrics.
 
-## 🧩 Modelling pipeline
+## 🧩 Reported modelling pipeline
+
+This is the conceptual approach described by the project notes, rather than a map of a complete training implementation in this repository.
 
 ```text
 Raw campus telemetry
@@ -89,31 +92,39 @@ WattMosaic/
 ├── .gitignore
 ├── LICENSE
 ├── README.md
-└── requirements.txt
+├── requirements.txt          # archival event environment
+├── requirements-smoke.txt    # public checks entrypoint
+├── checks/requirements.txt   # current smoke dependencies
+├── scripts/check_notebook.py
+└── tests/test_public_routing.py
 ```
 
 Only public-facing project files are included. Competition datasets, serialized model weights, generated predictions, leaderboard-probing artifacts, intermediate experiment rounds, and submission-only files are intentionally excluded.
 
 ## 🚀 Explore the notebook
 
-The cleaned notebook contains the final feature interface, portable inference implementation, missingness routing logic, concise EDA, and verified evaluation summary:
+The notebook contains the missingness-mask function, a simplified routing function, a data-free example, the reported metrics table and archived runtime notes:
 
 **[Open `notebooks/WattMosaic.ipynb`](notebooks/WattMosaic.ipynb)**
 
-The original competition data is **not redistributed** because the provided materials did not explicitly grant public redistribution rights. If you have a legitimate copy of the event dataset, place it under `data/` using the original filenames to activate the optional EDA cells.
+The original competition data is **not redistributed** because the provided materials did not explicitly grant public redistribution rights. No dataset or trained model is needed for the public checks, and this notebook has no optional dataset-loading or training path.
 
 ## 🛠️ Environment
 
-The final event runtime was fixed to **Python 3.12** and the following package versions:
+Use Python 3.12 and the separate current smoke environment to run the public notebook:
 
 ```bash
 python -m venv .venv
 # Windows: .venv\Scripts\activate
 # macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements-smoke.txt
+python -m pytest -q
+python scripts/check_notebook.py
 ```
 
-The pinned environment includes NumPy, pandas, scikit-learn, LightGBM, XGBoost, SciPy, Matplotlib, Seaborn, and Joblib. The published notebook does not include the competition's trained `model.pkl`.
+`requirements.txt` preserves the **archival event runtime** (NumPy, pandas, scikit-learn, LightGBM, XGBoost, SciPy, Matplotlib, Seaborn and Joblib). It is historical documentation, not the maintained smoke environment or a production deployment recommendation. The trained `model.pkl` is not included.
+
+[Public notebook CI](https://github.com/C-X1an/WattMosaic/actions) executes the walkthrough top-to-bottom and tests the actual notebook functions against synthetic inputs: all 16 masks, repeated patterns, row order, core/specialist selection, nonnegative clipping and empty inputs. It audits only the current smoke dependencies. These checks do not establish trained-model accuracy, domain adaptation or leaderboard performance.
 
 ## 🔬 What I learned
 
