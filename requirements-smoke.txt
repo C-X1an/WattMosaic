@@ -1,0 +1,2 @@
+# Public notebook checks only, on Python 3.12. Event dependencies remain in requirements.txt.
+-r checks/requirements.txt
